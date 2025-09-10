@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    timeout-minutes: 30      # giới hạn tối đa 30 phút
+    timeout-minutes: 300      # giới hạn tối đa 30 phút
     env:
       DEPLOY_ENV: "playground"
       SSHX_THREADS: "4"       # nếu SSHX hỗ trợ multi-thread
