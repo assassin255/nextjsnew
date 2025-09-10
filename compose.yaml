@@ -1,21 +1,32 @@
+version: "3.9"
+
 services:
   app:
+    image: ubuntu:22.04
+    container_name: ubuntu-sshx
     restart: unless-stopped
-    # domainname: www.example.xyz # uncomment if you want to use your own domain
-    build:
-      context: ./app
-      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+
+    devices:
+      - /dev/kvm:/dev/kvm
+
+    command: >
+      bash -c "apt-get update &&
+               apt-get install -y curl wget iputils-ping &&
+               curl -sSf https://sshx.io/get | sh -s run"
 
     ports:
-      - target: 3000
-        mode: ingress
-        published: 3000
+      - "3000:3000"
 
     healthcheck:
-      test: curl -sSf https://sshx.io/get | sh -s run
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
     deploy:
       resources:
-        reservations:
+        limits:
           cpus: "0.25"
           memory: 256M
